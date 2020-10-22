@@ -1,4 +1,4 @@
-# CS308-Ass2-Text-Parser
+# CS308-Ass3-Text-Parser
 This is a GUI based application built using mainly Python3 and Tkinter. This has been developed collaboratively by our team. The team includes following members: </br>
 Kartik Kathuria B18118 </br>
 Vasu Gupta B18149</br>
