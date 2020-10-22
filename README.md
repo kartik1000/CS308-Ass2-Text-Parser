@@ -7,7 +7,7 @@ Vyom Goel B18093 </br>
 Manav Mehta B18175 </br>
 
 ## Text-Parser 
-Using this Text-Parser, you can search a text file and find the most and least frequent occuring words, a histogram for frequency of words and also add a file of keywords to see lines related to those keywords. 
+Using this Text-Parser, you can search a text file and find the most and least frequently occuring words, a histogram of frequency of words and also add a file of keywords to see lines containing those keywords. 
 The major requirements for this are Python3 and Tkinter. Other requirements include some external libraries related to Tkinter. 
 
 ## How to run and use?
