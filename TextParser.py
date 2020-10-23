@@ -1,6 +1,35 @@
 import tkinter as tk
 from tkinter.filedialog import askopenfile 
 from tkinter import messagebox
+import collections
+import random
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+
+def getPlot(wordcount):
+    sweetSpot=20
+    sortedCount = sorted(wordcount.items(), key = lambda kv:(kv[1], kv[0]))
+    N=len(sortedCount)
+
+    # max
+    maxCount=sortedCount[N-sweetSpot:N] # make it [0:N] to include all words
+    random.shuffle(maxCount)
+    words = [i[0] for i in maxCount]
+    counts = [i[1] for i in maxCount]
+
+    fig = Figure(figsize=(12,10))
+    a = fig.add_subplot(111)
+    a.bar(words, counts, width=0.4, color='orange')
+    a.set_title ('Most occuring ' + str(sweetSpot) + ' words in the selected file with their counts', fontsize=12)
+    a.set_ylabel('Count', fontsize=10)
+    a.set_xlabel('Word', fontsize=10)
+    a.set_xticklabels(words, rotation=50)
+
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.get_tk_widget().pack()
+    canvas.draw()
+
 #sets main_filepath to the path of the text file.
 def choose_file_function():
     global main_filepath, file_chosen, textbox_content, textbox
@@ -84,6 +113,8 @@ def analyze_file():
     display_string += "The least common word is "
     display_string += str(word_counter.most_common()[-1][0]) + ": " + str(word_counter.most_common()[-1][1])
     messagebox.showinfo("showinfo", display_string) 
+    getPlot(wordcount) # may need to move up
+    return
 
 #This function finds sentences with given keywords. 
 def find_keywords():
