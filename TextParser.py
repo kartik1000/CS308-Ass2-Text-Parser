@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.filedialog import askopenfile 
 from tkinter import messagebox
+import collections
 #sets main_filepath to the path of the text file.
 def choose_file_function():
     global main_filepath, file_chosen, textbox_content, textbox
@@ -36,7 +37,7 @@ def choose_file_function():
 
 #refreshes the text box displaying the main text file.
 def refresh_function():
-    #insert code
+    analyze_file();
     return
 
 #sets keyword_path to the path of the keywords file.
