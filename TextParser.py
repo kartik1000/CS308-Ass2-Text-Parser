@@ -107,7 +107,8 @@ def find_keywords():
                 if key_list[j] in main_file[i]:
                     sentences.append(main_file[i])
                     break
-        #displaying it on th dialog box
+                    
+        #displaying it on the dialog box
         display_string="The Sentence(s) that contain(s) atleast one keyword is/are :"
         for i in range(len(sentences)):
             display_string+="\n"
