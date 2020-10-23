@@ -65,7 +65,7 @@ def choose_file_function():
 
 #refreshes the text box displaying the main text file.
 def refresh_function():
-    #insert code
+    analyze_file();
     return
 
 #sets keyword_path to the path of the keywords file.
