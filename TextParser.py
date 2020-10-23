@@ -42,7 +42,9 @@ def refresh_function():
 #sets keyword_path to the path of the keywords file.
 def choose_keywords_function():
     global keywords_path
-    #insert code
+    keywords_path = askopenfile()
+    keywords_path = keywords_path.name
+    print(keywords_path)
     return
 
 #This function analyzes the text file for desired stats.
@@ -87,7 +89,31 @@ def analyze_file():
 def find_keywords():
 
     if(keywords_path!=""):
-        #insert code
+        #preprocessing of main file.
+        file = open(main_filepath, encoding="utf8")
+        main_file=file.read()
+        main_file=main_file.replace("\n","")
+        main_file=main_file.split(".")
+        
+        #preprocessing of file containg keys.
+        file_key = open(keywords_path, encoding="utf8")
+        key_list= file_key.read()
+        key_list=key_list.split("\n")
+        
+        # searching for keywords and adding them to a list
+        sentences=[]
+        for i in range(len(main_file)):
+            for j in range(len(key_list)):
+                if key_list[j] in main_file[i]:
+                    sentences.append(main_file[i])
+                    break
+        #displaying it on th dialog box
+        display_string="The Sentence(s) that contain(s) atleast one keyword is/are :"
+        for i in range(len(sentences)):
+            display_string+="\n"
+            display_string+=sentences[i]
+        display_string+="\n"     
+        messagebox.showinfo("showinfo", display_string)
         return
 
 
