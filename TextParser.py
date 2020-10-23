@@ -47,10 +47,41 @@ def choose_keywords_function():
 
 #This function analyzes the text file for desired stats.
 def analyze_file():
+    print(main_filepath)
+    file = open(main_filepath, encoding="utf8")
+    a= file.read()
+    # Stopwords
+    stopwords = set(['he','she','the','is','are'])
+    #stopwords = set(line.strip() for line in open('stopwords.txt'))
+    stopwords = stopwords.union(set(['mr','mrs','one','two','said']))
+    # Instantiate a dictionary, and for every word in the file, 
+    # Add to the dictionary if it doesn't exist. If it does, increase the count.
+    wordcount = {}
+    # To eliminate duplicates, remember to split by punctuation, and use case demiliters.
+    for word in a.lower().split():
+        word = word.replace(".","")
+        word = word.replace(",","")
+        word = word.replace(":","")
+        word = word.replace("\"","")
+        word = word.replace("!","")
+        word = word.replace("â€œ","")
+        word = word.replace("â€˜","")
+        word = word.replace("*","")
+        if word not in stopwords:
+            if word not in wordcount:
+                wordcount[word] = 1
+            else:
+                wordcount[word] += 1 
+    # Print most common word
+    n_print = 1
+    display_string = "The most common word is "
+    word_counter = collections.Counter(wordcount)
+    for word, count in word_counter.most_common(n_print):
+        display_string += str(word) + ": " + str(count) + "\n"
     
-    if(main_filepath!=""):
-        #insert code
-        return
+    display_string += "The least common word is "
+    display_string += str(word_counter.most_common()[-1][0]) + ": " + str(word_counter.most_common()[-1][1])
+    messagebox.showinfo("showinfo", display_string) 
     
 #This function finds sentences with given keywords. 
 def find_keywords():
