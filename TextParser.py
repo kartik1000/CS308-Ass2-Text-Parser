@@ -1,29 +1,38 @@
 import tkinter as tk
 from tkinter.filedialog import askopenfile 
+from tkinter import messagebox
 #sets main_filepath to the path of the text file.
 def choose_file_function():
-    global main_filepath
+    global main_filepath, file_chosen, textbox_content, textbox
     main_filepath = askopenfile()
     main_filepath=main_filepath.name
+    try:
+        ext = main_filepath.split('.')[-1]
+        if ext=="txt":
+            file_chosen = 1
+            #This button is used to refresh the main text file.
+            refresh_file_button=tk.Button(root, text = "*REFRESH*",font=("Fixedsys",13),bg="#458BC6",command = refresh_function)
+            refresh_file_button.place(rely=.04,relx=.46) #change relx and rely to change position of button.
 
-    #This button is used to refresh the main text file.
-    refresh_file_button=tk.Button(root, text = "*REFRESH*",font=("Fixedsys",13),bg="#458BC6",command = refresh_function)
-    refresh_file_button.place(rely=.04,relx=.46) #change relx and rely to change position of button.
+            #This button is used to refresh the main text file.
+            refresh_file_button=tk.Button(root, text = "CHOOSE KEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = choose_keywords_function)
+            refresh_file_button.place(rely=.04,relx=.54) #change relx and rely to change position of button.
 
-    #This button is used to refresh the main text file.
-    refresh_file_button=tk.Button(root, text = "CHOOSE KEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = choose_keywords_function)
-    refresh_file_button.place(rely=.04,relx=.54) #change relx and rely to change position of button.
+            #This button is used to analyze the main text file.
+            analyze_file_button=tk.Button(root, text = "*ANALYZE*",font=("Fixedsys",13),bg="#458BC6",command = analyze_file)
+            analyze_file_button.place(rely=.09,relx=.4) #change relx and rely to change position of button.
 
-    #This button is used to analyze the main text file.
-    analyze_file_button=tk.Button(root, text = "*ANALYZE*",font=("Fixedsys",13),bg="#458BC6",command = analyze_file)
-    analyze_file_button.place(rely=.09,relx=.4) #change relx and rely to change position of button.
+            #This button is used to analyze the main text file.
+            analyze_keywords_button=tk.Button(root, text = "ANALYZE FOR \nKEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = find_keywords)
+            analyze_keywords_button.place(rely=.09,relx=.5) #change relx and rely to change position of button.
+            textbox.destroy()
+        else:
+            messagebox.showwarning("File Upload Error!","Please Upload a valid text file!")
+    except:
+        messagebox.showwarning("File Upload Error!","Please Upload a valid text file!")
+       
 
-    #This button is used to analyze the main text file.
-    analyze_keywords_button=tk.Button(root, text = "ANALYZE FOR \nKEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = find_keywords)
-    analyze_keywords_button.place(rely=.09,relx=.5) #change relx and rely to change position of button.
-
-
-    return
+        return
 
 #refreshes the text box displaying the main text file.
 def refresh_function():
@@ -56,6 +65,7 @@ HEIGHT=768
 WIDTH=1366
 main_filepath=""
 keywords_path=""
+file_chosen = 0
 
 #Initializing main window for the GUI.
 root=tk.Tk()
