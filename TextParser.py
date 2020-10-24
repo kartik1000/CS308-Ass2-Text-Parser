@@ -2,7 +2,34 @@ import tkinter as tk
 from tkinter.filedialog import askopenfile 
 from tkinter import messagebox
 import collections
+import random
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 import pickle
+
+def getPlot(wordcount):
+    sweetSpot=20
+    sortedCount = sorted(wordcount.items(), key = lambda kv:(kv[1], kv[0]))
+    N=len(sortedCount)
+
+    # max
+    maxCount=sortedCount[N-sweetSpot:N] # make it [0:N] to include all words
+    random.shuffle(maxCount)
+    words = [i[0] for i in maxCount]
+    counts = [i[1] for i in maxCount]
+
+    fig = Figure(figsize=(12,10))
+    a = fig.add_subplot(111)
+    a.bar(words, counts, width=0.4, color='orange')
+    a.set_title ('Most occuring ' + str(sweetSpot) + ' words in the selected file with their counts', fontsize=12)
+    a.set_ylabel('Count', fontsize=10)
+    a.set_xlabel('Word', fontsize=10)
+    a.set_xticklabels(words, rotation=50)
+
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.get_tk_widget().pack()
+    canvas.draw()
 
 #sets main_filepath to the path of the text file.
 def choose_file_function():
@@ -15,19 +42,19 @@ def choose_file_function():
             file_chosen = 1
             #This button is used to refresh the main text file.
             refresh_file_button=tk.Button(root, text = "*REFRESH*",font=("Fixedsys",13),bg="#458BC6",command = refresh_function)
-            refresh_file_button.place(rely=.04,relx=.46) #change relx and rely to change position of button.
-
+            refresh_file_button.place(rely=.04,relx=.400) #change relx and rely to change position of button.
+            
             #This button is used to refresh the main text file.
             refresh_file_button=tk.Button(root, text = "CHOOSE KEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = choose_keywords_function)
-            refresh_file_button.place(rely=.04,relx=.54) #change relx and rely to change position of button.
-
+            refresh_file_button.place(rely=.04,relx=.500) #change relx and rely to change position of button.
+            
             #This button is used to analyze the main text file.
             analyze_file_button=tk.Button(root, text = "*ANALYZE*",font=("Fixedsys",13),bg="#458BC6",command = analyze_file)
-            analyze_file_button.place(rely=.09,relx=.4) #change relx and rely to change position of button.
-
+            analyze_file_button.place(rely=.04,relx=.300) #change relx and rely to change position of button.
+            
             #This button is used to analyze the main text file.
             analyze_keywords_button=tk.Button(root, text = "ANALYZE FOR \nKEYWORDS",font=("Fixedsys",13),bg="#458BC6",command = find_keywords)
-            analyze_keywords_button.place(rely=.09,relx=.5) #change relx and rely to change position of button.
+            analyze_keywords_button.place(rely=.04,relx=.650) #change relx and rely to change position of button.
             textbox.destroy()
         else:
             messagebox.showwarning("File Upload Error!","Please Upload a valid text file!")
@@ -87,7 +114,9 @@ def analyze_file():
     display_string += "The least common word is "
     display_string += str(word_counter.most_common()[-1][0]) + ": " + str(word_counter.most_common()[-1][1])
     messagebox.showinfo("showinfo", display_string) 
-    
+    getPlot(wordcount) # may need to move up
+    return
+
 #This function finds sentences with given keywords. 
 def find_keywords():
 
@@ -122,8 +151,8 @@ def find_keywords():
 
 
 #Windows size
-HEIGHT=768
-WIDTH=1366
+HEIGHT=300
+WIDTH=1000
 main_filepath=""
 keywords_path=""
 file_chosen = 0
@@ -136,12 +165,12 @@ canvas.pack()
 
 #This button is used to select the main text file.
 choose_file_button=tk.Button(root, text = "CHOOSE FILE",font=("Fixedsys",13),bg="#458BC6",command = choose_file_function)
-choose_file_button.place(rely=.04,relx=.365) #change relx and rely to change position of button.
+choose_file_button.place(rely=.04,relx=.200) #change relx and rely to change position of button.
 
 #This is the main textbox where all the results are displayed. Use textbox_content.set(context) to change contents of the textbox.
 textbox_content = tk.StringVar()
 textbox_content.set("Please choose a file and press *ANALYZE*.") #Similarly use .set to change contents.
 textbox = tk.Entry(root,textvariable=textbox_content, state='disabled', font=("Fixedsys",13))
-textbox.place(relx=.01,rely=.17,relwidth=.98,relheight=.82)
+textbox.place(relx=.01,rely=.17,relwidth=.98,relheight=.20)
 
 tk.mainloop()
