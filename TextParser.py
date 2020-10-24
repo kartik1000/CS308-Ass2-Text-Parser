@@ -5,7 +5,8 @@ import collections
 import random
 import matplotlib.pyplot as plt
 from matplotlib.figure import Figure 
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
+import pickle
 
 def getPlot(wordcount):
     sweetSpot=20
@@ -81,10 +82,10 @@ def analyze_file():
     print(main_filepath)
     file = open(main_filepath, encoding="utf8")
     a= file.read()
-    # Stopwords
-    stopwords = set(['he','she','the','is','are'])
-    #stopwords = set(line.strip() for line in open('stopwords.txt'))
-    stopwords = stopwords.union(set(['mr','mrs','one','two','said']))
+    
+    with open("stopwords.txt", "rb") as fp:   # Unpickling
+        stopwords = pickle.load(fp)
+        
     # Instantiate a dictionary, and for every word in the file, 
     # Add to the dictionary if it doesn't exist. If it does, increase the count.
     wordcount = {}
